@@ -1,7 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import ChatMessages from "./ChatMessages.jsx";
 import ChatInput from "./ChatInput.jsx";
-import { styles } from "./styles.js";
 import Typewriter from "./typewriter.jsx";
 
 export const loadingContext = createContext();
@@ -34,8 +33,7 @@ function Chatbot() {
                 Using these examples, generate prescripts that can be done in someones day to day life
                 You are also allowed to purposely give out vague prescripts, for example, "See green from a white wall"
                 Additionally, it is very important to make sure that the prescripts aren't too long, keep it under 35 words
-                Not only that, make sure that the prescripts have a clear time limit, i.e 10 minutes, 25 seconds. Although this is not necessary for all tasks. 
-                If no time limit is given, make sure to say "no time limit", so for example, say "Walk through a doorway, no time limit"
+                Whether or not the prescripts have a set time limit is up to your discretion.
                 Also, make sure that the task of each prescript is not repeated, so don't give me a prescript that tells me to brush my teeth again and make sure to be unpredictable.
                 You are allowed to "schedule" a task to be done later as well, e.g "In 90 hours drink a cup of milk"
                 Do not offer options to choose from, and everything you say must be a command
@@ -43,8 +41,7 @@ function Chatbot() {
     },
     {
       role: "starter",
-      content: `I have the talent to walk the path in front of me, if nothing else... 
-      Even if I don't have much happiness, I know where to go in the immediate future. And that's enough for me.`,
+      content: `To follow where the prescript points, that is our duty.`,
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -107,8 +104,8 @@ function Chatbot() {
 
   if (!started) {
     return (
-      <div style={styles.overlay}>
-        <button onClick={() => setStarted(true)} style={styles.startButton}>
+      <div>
+        <button onClick={() => setStarted(true)}>
           Approach the Loom
         </button>
       </div>
@@ -116,11 +113,11 @@ function Chatbot() {
   } else {
     return (
       <loadingContext.Provider value={{ isLoading, changeLoading }}>
-        <div style={styles.container}>
-          <h2 style={styles.title}>The Loom</h2>
+        <div>
+          <h2>The Loom</h2>
 
           {isBooting ? (
-            <div style={styles.bootingOverlay}>
+            <div>
               <Typewriter
                 content="The pendulum begins to wake... please wait."
                 speed={100}

@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import ChatMessage from "./ChatMessage.jsx";
-import { styles } from "./styles.js";
 import Typewriter from "./typewriter.jsx";
 import { loadingContext } from "./Chatbot.jsx";
 
@@ -38,7 +37,7 @@ function ChatMessages({ messages, loading }) {
     return null;
   }
 
-  return <div style={styles.messages}>{displayMessage()}</div>;
+  return <div>{displayMessage()}</div>;
 }
 
 export default ChatMessages;

@@ -2,26 +2,29 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { loadingContext } from "./Chatbot.jsx";
 import loom from "./assets/loom.mp3";
 
-// ADD OPTION TO MUTE THE SOUND
 function Typewriter({ content, speed, shouldNotify = false }) {
   const [displayedText, setDisplayedText] = useState("");
   const { changeLoading } = useContext(loadingContext);
-  const hasPlayed = useRef(false); // this is used t save a value between renders, i.e if i want to save a response between renders i use this
-  const loom_sfx = new Audio(loom);
-  loom_sfx.volume = 0.01;
+  const hasPlayed = useRef(false);
+
+  const loom_sfx = useRef(new Audio(loom));
 
   useEffect(() => {
-    let isMounted = true; // Guard against memory leaks
+    loom_sfx.current.volume = 0.01;
+  }, []); // Set volume once on mount
+
+  useEffect(() => {
+    let isMounted = true;
     setDisplayedText("");
     hasPlayed.current = false;
 
-    const typingInterval = setInterval(() => {
-      // 1. Check if we should play the sound BEFORE updating text
-      if (!hasPlayed.current) {
-        loom_sfx.play().catch((e) => console.log("Playback blocked or failed"));
+    loom_sfx.current.pause();
+    loom_sfx.current.currentTime = 0;  // rewind so it's fresh next time
 
-        hasPlayed.current = true; // Lock it immediately
-        console.log("Audio triggered once.");
+    const typingInterval = setInterval(() => {
+      if (!hasPlayed.current) {
+        loom_sfx.current.play().catch((e) => console.log("Playback blocked or failed"));
+        hasPlayed.current = true;
       }
 
       setDisplayedText((prev) => {
@@ -30,8 +33,7 @@ function Typewriter({ content, speed, shouldNotify = false }) {
           if (shouldNotify && isMounted) {
             setTimeout(changeLoading, 1000);
           }
-          loom_sfx.pause();
-
+          loom_sfx.current.pause();
           return prev;
         }
         return prev + content.charAt(prev.length);
@@ -41,10 +43,13 @@ function Typewriter({ content, speed, shouldNotify = false }) {
     return () => {
       isMounted = false;
       clearInterval(typingInterval);
+      // Stop audio when content changes (new message generated)
+      loom_sfx.current.pause();
+      loom_sfx.current.currentTime = 0;
     };
   }, [content, speed]);
 
-  return <span style={{ whiteSpace: "pre-wrap" }}>{displayedText}</span>;
+  return <span>{displayedText}</span>;
 }
 
 export default Typewriter;
