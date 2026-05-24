@@ -7,7 +7,7 @@ import Chatbot from "./Chatbot.jsx";
 function App() {
 
   return (
-    <div>
+    <div className="app">
       <Navbar siteName={SITE_CONTENT.siteName} />
       {/* <Hero
         greeting={SITE_CONTENT.hero.greeting}

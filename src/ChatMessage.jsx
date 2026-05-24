@@ -3,7 +3,7 @@ import React from "react";
 function ChatMessage({ role, content }) {
 
   return (
-    <div>
+    <div className="message">
       {content}
     </div>
   );

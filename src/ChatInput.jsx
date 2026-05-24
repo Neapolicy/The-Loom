@@ -23,7 +23,7 @@ function ChatInput({ onSend, loading }) {
   };
 
   return (
-    <div>
+    <div className="chat-controls">
       {loading || isLoading ? (
         <div>Waiting...</div> // REMEMBER TO STYLE THIS DIV
       ) : isFirst ? (

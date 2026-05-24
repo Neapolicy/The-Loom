@@ -37,7 +37,7 @@ function ChatMessages({ messages, loading }) {
     return null;
   }
 
-  return <div>{displayMessage()}</div>;
+  return <div className="messages">{displayMessage()}</div>;
 }
 
 export default ChatMessages;

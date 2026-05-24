@@ -1,9 +1,12 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useCallback } from "react";
 import ChatMessages from "./ChatMessages.jsx";
 import ChatInput from "./ChatInput.jsx";
 import Typewriter from "./typewriter.jsx";
 
-export const loadingContext = createContext();
+export const loadingContext = createContext({
+  isLoading: false,
+  changeLoading: () => {},
+});
 
 function Chatbot() {
   const [messages, setMessages] = useState([
@@ -49,21 +52,33 @@ function Chatbot() {
   const [isBooting, setIsBooting] = useState(true);
   const [started, setStarted] = useState(false);
 
-  const changeLoading = () => {
+  const changeLoading = useCallback(() => {
     setIsLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
+    let cancelled = false;
+
     const checkConnection = async () => {
-      // Tags endpoint is a quick way to see if the server is alive
-      const response = await fetch("http://localhost:11434/api/tags");
-      if (response.ok) {
-        console.log("Ollama is awake.");
-        setIsBooting(false); // AI is officially "Booted"
+      while (!cancelled) {
+        try {
+          const response = await fetch("http://localhost:11434/api/tags");
+          if (response.ok) {
+            console.log("Ollama is awake.");
+            setIsBooting(false);
+            return;
+          }
+        } catch {
+          // Ollama not reachable yet — keep polling
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
     };
 
     checkConnection();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function sendMessage() {
@@ -79,60 +94,77 @@ function Chatbot() {
     setLoading(true);
     setIsLoading(true);
 
-    const response = await fetch("http://localhost:11434/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama3.1",
-        messages: updatedMessages,
-        stream: false,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:11434/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "llama3.1",
+          messages: updatedMessages,
+          stream: false,
+        }),
+      });
 
-    const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`Ollama responded with ${response.status}`);
+      }
 
-    console.log("Ollama response:", data);
+      const data = await response.json();
+      console.log("Ollama response:", data);
 
-    const assistantMessage = {
-      role: "assistant",
-      content: data.message.content,
-    };
+      const assistantMessage = {
+        role: "assistant",
+        content: data.message?.content ?? "The loom is silent. Try again.",
+      };
 
-    setMessages(updatedMessages.concat(assistantMessage));
-    setLoading(false);
+      setMessages(updatedMessages.concat(assistantMessage));
+    } catch (error) {
+      console.error("Failed to generate prescript:", error);
+      setMessages(
+        updatedMessages.concat({
+          role: "assistant",
+          content: "The loom could not respond. Ensure Ollama is running.",
+        })
+      );
+      setIsLoading(false);
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (!started) {
     return (
-      <div>
-        <button onClick={() => setStarted(true)}>
-          Approach the Loom
-        </button>
+      <div className="chatbot chatbot--landing">
+        <div className="paper-sheet">
+          <button onClick={() => setStarted(true)}>
+            Approach the Loom
+          </button>
+        </div>
       </div>
     );
-  } else {
-    return (
-      <loadingContext.Provider value={{ isLoading, changeLoading }}>
-        <div>
+  }
+
+  return (
+    <loadingContext.Provider value={{ isLoading, changeLoading }}>
+      <div className="chatbot">
+        <div className="paper-sheet">
           <h2>The Loom</h2>
 
-          {isBooting ? (
-            <div>
+          {isBooting && (
+            <p className="boot-status">
               <Typewriter
                 content="The pendulum begins to wake... please wait."
                 speed={100}
               />
-            </div>
-          ) : (
-            <>
-              <ChatMessages messages={messages} loading={loading} />
-              <ChatInput onSend={sendMessage} disabled={isBooting} />
-            </>
+            </p>
           )}
+
+          <ChatMessages messages={messages} loading={loading} />
+          <ChatInput onSend={sendMessage} loading={loading || isBooting} />
         </div>
-      </loadingContext.Provider>
-    );
-  }
+      </div>
+    </loadingContext.Provider>
+  );
 }
 
 export default Chatbot;
