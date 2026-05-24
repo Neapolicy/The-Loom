@@ -2,7 +2,8 @@ import React, { useState, createContext, useEffect, useCallback } from "react";
 import ChatMessages from "./ChatMessages.jsx";
 import ChatInput from "./ChatInput.jsx";
 import Typewriter from "./typewriter.jsx";
-import Index_Seal from "./assets/index_seal.png"
+import Index_Seal from "./assets/index_seal.png";
+import Wax_Seal from "./assets/wax_seal.png";
 
 export const loadingContext = createContext({
   isLoading: false,
@@ -147,6 +148,7 @@ function Chatbot() {
     <loadingContext.Provider value={{ isLoading, changeLoading }}>
       <div className="chatbot">
         <div className="paper-sheet">
+          <img src={Wax_Seal} alt="wax seal of the index" className="WaxSeal"/>
           <img src={Index_Seal} alt="seal of the index" className="IndSeal"/>
 
           <h2>The Loom</h2>
