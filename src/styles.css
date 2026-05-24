@@ -28,20 +28,36 @@ footer,
   background-color: var(--parchment-base);
   background-image:
     /* uneven age / oil stains */
-    radial-gradient(ellipse 70% 55% at 12% 18%, rgba(180, 140, 80, 0.28) 0%, transparent 58%),
-    radial-gradient(ellipse 55% 45% at 88% 82%, rgba(140, 100, 55, 0.22) 0%, transparent 52%),
-    radial-gradient(ellipse 40% 35% at 72% 12%, rgba(200, 170, 110, 0.18) 0%, transparent 48%),
-    radial-gradient(ellipse 50% 40% at 25% 88%, rgba(120, 90, 50, 0.2) 0%, transparent 50%),
+    radial-gradient(
+      ellipse 70% 55% at 12% 18%,
+      rgba(180, 140, 80, 0.28) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 55% 45% at 88% 82%,
+      rgba(140, 100, 55, 0.22) 0%,
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 72% 12%,
+      rgba(200, 170, 110, 0.18) 0%,
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 25% 88%,
+      rgba(120, 90, 50, 0.2) 0%,
+      transparent 50%
+    ),
     /* cross-woven cloth fibers */
     repeating-linear-gradient(
-      92deg,
-      transparent 0px,
-      transparent 2px,
-      var(--fiber) 2px,
-      var(--fiber) 3px,
-      transparent 3px,
-      transparent 7px
-    ),
+        92deg,
+        transparent 0px,
+        transparent 2px,
+        var(--fiber) 2px,
+        var(--fiber) 3px,
+        transparent 3px,
+        transparent 7px
+      ),
     repeating-linear-gradient(
       2deg,
       transparent 0px,
@@ -60,18 +76,22 @@ footer,
     ),
     /* base warmth — lighter center, darker edges */
     linear-gradient(
-      168deg,
-      var(--parchment-light) 0%,
-      var(--parchment-base) 42%,
-      var(--parchment-dark) 88%
-    );
+        168deg,
+        var(--parchment-light) 0%,
+        var(--parchment-base) 42%,
+        var(--parchment-dark) 88%
+      );
 }
 
 body {
   font-family: var(--font-title);
   background-color: var(--desk);
   background-image:
-    radial-gradient(ellipse at 30% 10%, rgba(255, 240, 210, 0.05) 0%, transparent 45%),
+    radial-gradient(
+      ellipse at 30% 10%,
+      rgba(255, 240, 210, 0.05) 0%,
+      transparent 45%
+    ),
     radial-gradient(ellipse at 70% 90%, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
     linear-gradient(160deg, var(--desk-light) 0%, var(--desk) 50%, #2e261e 100%);
   color: var(--ink);
@@ -190,7 +210,7 @@ nav a:hover {
   display: block;
   margin: auto;
   width: 6.5em;
-
+  filter: opacity(0.7) drop-shadow(0 0 0 rgb(168, 166, 18));
   height: 50%;
 }
 
@@ -310,7 +330,9 @@ button {
   box-shadow:
     2px 2px 0 rgba(44, 34, 22, 0.12),
     inset 0 1px 0 rgba(255, 240, 210, 0.4);
-  transition: background 0.15s, transform 0.1s;
+  transition:
+    background 0.15s,
+    transform 0.1s;
 }
 
 button:hover:not(:disabled) {
