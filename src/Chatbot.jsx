@@ -2,6 +2,7 @@ import React, { useState, createContext, useEffect, useCallback } from "react";
 import ChatMessages from "./ChatMessages.jsx";
 import ChatInput from "./ChatInput.jsx";
 import Typewriter from "./typewriter.jsx";
+import Index_Seal from "./assets/index_seal.png"
 
 export const loadingContext = createContext({
   isLoading: false,
@@ -124,7 +125,7 @@ function Chatbot() {
         updatedMessages.concat({
           role: "assistant",
           content: "The loom could not respond. Ensure Ollama is running.",
-        })
+        }),
       );
       setIsLoading(false);
     } finally {
@@ -136,9 +137,7 @@ function Chatbot() {
     return (
       <div className="chatbot chatbot--landing">
         <div className="paper-sheet">
-          <button onClick={() => setStarted(true)}>
-            Approach the Loom
-          </button>
+          <button onClick={() => setStarted(true)}>Approach the Loom</button>
         </div>
       </div>
     );
@@ -148,6 +147,8 @@ function Chatbot() {
     <loadingContext.Provider value={{ isLoading, changeLoading }}>
       <div className="chatbot">
         <div className="paper-sheet">
+          <img src={Index_Seal} alt="seal of the index" className="IndSeal"/>
+
           <h2>The Loom</h2>
 
           {isBooting && (

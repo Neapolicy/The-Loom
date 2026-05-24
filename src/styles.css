@@ -186,6 +186,14 @@ nav a:hover {
 }
 
 /* Chatbot area */
+.IndSeal {
+  display: block;
+  margin: auto;
+  width: 6.5em;
+
+  height: 50%;
+}
+
 .chatbot {
   flex: 1;
   display: flex;

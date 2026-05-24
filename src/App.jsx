@@ -9,13 +9,6 @@ function App() {
   return (
     <div className="app">
       <Navbar siteName={SITE_CONTENT.siteName} />
-      {/* <Hero
-        greeting={SITE_CONTENT.hero.greeting}
-        tagline={SITE_CONTENT.hero.tagline}
-        cta={SITE_CONTENT.hero.cta}
-        onCtaClick={handleCta}
-      /> */}
-      {/* <FeaturesSection features={SITE_CONTENT.features} /> */}
       <Chatbot />
       <Footer copy={SITE_CONTENT.footer.copy} />
     </div>
