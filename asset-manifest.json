@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/The-Loom/static/css/main.f80fbd44.css",
+    "main.js": "/The-Loom/static/js/main.c5d8ef8d.js",
+    "static/js/109.9a0743c4.chunk.js": "/The-Loom/static/js/109.9a0743c4.chunk.js",
+    "static/media/loom.mp3": "/The-Loom/static/media/loom.60d544f18cff6c850c90.mp3",
+    "static/media/wax_seal.png": "/The-Loom/static/media/wax_seal.47e0d0ae59bda5c7e4a1.png",
+    "static/media/index_seal.png": "/The-Loom/static/media/index_seal.1b3114db6da6c481ace1.png",
+    "index.html": "/The-Loom/index.html",
+    "main.f80fbd44.css.map": "/The-Loom/static/css/main.f80fbd44.css.map",
+    "main.c5d8ef8d.js.map": "/The-Loom/static/js/main.c5d8ef8d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f80fbd44.css",
+    "static/js/main.c5d8ef8d.js"
+  ]
+}
